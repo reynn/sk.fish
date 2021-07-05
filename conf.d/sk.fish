@@ -25,16 +25,9 @@ function _sk_uninstall --on-event sk_uninstall
     _sk_uninstall_bindings
 
     set --erase _sk_search_vars_command
-    functions --erase _sk_uninstall _sk_migration_message _sk_uninstall_bindings sk_configure_bindings
+    functions --erase _sk_uninstall _sk_uninstall_bindings sk_configure_bindings
 
     set_color --italics cyan
     echo "sk.fish uninstalled"
-    set_color normal
-end
-
-function _sk_migration_message --on-event sk_update
-    set_color FF8C00 # dark orange
-    printf '\n%s\n' 'If you last updated sk.fish before 2021-06-11, you need to migrate your key bindings.'
-    printf '%s\n\n' 'Check out https://github.com/PatrickF1/sk.fish/wiki/Migration-Guides#v7.'
     set_color normal
 end
