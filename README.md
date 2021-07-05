@@ -1,16 +1,16 @@
 <div align="center">
 
-# fzf.fish 🔍🐟
+# sk.fish 🔍🐟
 
 [![latest release badge][]][releases] [![build status badge][]][actions] [![awesome badge][]][awesome fish]
 
 </div>
 
-Augment your [Fish][] command line with mnemonic key bindings to efficiently find what you need using [fzf][].
+Augment your [Fish][] command line with mnemonic key bindings to efficiently find what you need using [sk][].
 
 ## Features
 
-Use `fzf.fish` to interactively find and insert different shell entities into the command line:
+Use `sk.fish` to interactively find and insert different shell entities into the command line:
 
 ### File paths
 
@@ -68,128 +68,128 @@ First, install a proper version of these CLIs:
 | CLI      | Minimum version required | Description                                       |
 | -------- | ------------------------ | ------------------------------------------------- |
 | [fish][] | 3.2.0                    | a modern shell                                    |
-| [fzf][]  | 0.27.2                   | command-line fuzzy finder that powers this plugin |
+| [sk][]   | 0.27.2                   | command-line fuzzy finder that powers this plugin |
 | [fd][]   | 7.5.0                    | much faster and friendlier alternative to `find`  |
 | [bat][]  | 0.16.0                   | smarter `cat` with syntax highlighting            |
 
-On certain distribution of Linux, you need to alias `fdfind` to `fd` (see [#93](https://github.com/PatrickF1/fzf.fish/discussions/93)).
+On certain distribution of Linux, you need to alias `fdfind` to `fd` (see [#93](https://github.com/PatrickF1/sk.fish/discussions/93)).
 
 Next, install this plugin with [Fisher][].
 
-> `fzf.fish` can be installed manually or with other plugin managers but only Fisher is officially supported.
+> `sk.fish` can be installed manually or with other plugin managers but only Fisher is officially supported.
 
 ```fish
-fisher install PatrickF1/fzf.fish
+fisher install PatrickF1/sk.fish
 ```
 
 ## Configuration
 
 ### Customize key bindings
 
-`fzf.fish` includes a convenient wrapper for configuring its key bindings. It's flexible, has a short learning curve, and is thoroughly documented. See
+`sk.fish` includes a convenient wrapper for configuring its key bindings. It's flexible, has a short learning curve, and is thoroughly documented. See
 
 ```fish
-fzf_configure_bindings --help
+sk_configure_bindings --help
 ```
 
-Once you've found the `fzf_configure_bindings` command that produces the desired bindings, add it to your `config.fish` in order to persist the bindings.
+Once you've found the `sk_configure_bindings` command that produces the desired bindings, add it to your `config.fish` in order to persist the bindings.
 
-### Pass fzf options to all commands
+### Pass sk options to all commands
 
-fzf supports setting default options via the [FZF_DEFAULT_OPTS][] environment variable. If it is set, fzf implicitly prepends it to the options passed to it on every execution, scripted and interactive.
+sk supports setting default options via the [sk_DEFAULT_OPTS][] environment variable. If it is set, sk implicitly prepends it to the options passed to it on every execution, scripted and interactive.
 
-To make fzf's interface friendlier, `fzf.fish` takes the liberty of setting a sane `FZF_DEFAULT_OPTS` if it is not already set. See [conf.d/fzf.fish][] for more details. This affects fzf even outside of this plugin. If you would like to remove this side effect or just want to customize fzf's default options, then set export your own `FZF_DEFAULT_OPTS` variable. For example:
+To make sk's interface friendlier, `sk.fish` takes the liberty of setting a sane `sk_DEFAULT_OPTS` if it is not already set. See [conf.d/sk.fish][] for more details. This affects sk even outside of this plugin. If you would like to remove this side effect or just want to customize sk's default options, then set export your own `sk_DEFAULT_OPTS` variable. For example:
 
 ```fish
-set --export FZF_DEFAULT_OPTS --height 50% --no-extended +i
+set --export sk_DEFAULT_OPTS --height 50% --no-extended +i
 ```
 
-### Pass fzf options to a specific command
+### Pass sk options to a specific command
 
-The following variables can store custom options that will be passed to fzf by their respective feature:
+The following variables can store custom options that will be passed to sk by their respective feature:
 
-| Feature                | Variable              |
-| ---------------------- | --------------------- |
-| Search directory       | `fzf_dir_opts`        |
-| Search git status      | `fzf_git_status_opts` |
-| Search git log         | `fzf_git_log_opts`    |
-| Search command history | `fzf_history_opts`    |
-| Search shell variables | `fzf_shell_vars_opts` |
+| Feature                | Variable             |
+| ---------------------- | -------------------- |
+| Search directory       | `sk_dir_opts`        |
+| Search git status      | `sk_git_status_opts` |
+| Search git log         | `sk_git_log_opts`    |
+| Search command history | `sk_history_opts`    |
+| Search shell variables | `sk_shell_vars_opts` |
 
-They are always appended last to fzf's argument list. Because fzf uses the option appearing last when options conflict, your custom options can override hardcoded options. Custom fzf options unlocks a variety of possibilities in customizing and augmenting each feature such as:
+They are always appended last to sk's argument list. Because sk uses the option appearing last when options conflict, your custom options can override hardcoded options. Custom sk options unlocks a variety of possibilities in customizing and augmenting each feature such as:
 
-- add [key bindings](https://www.mankier.com/1/fzf#Key/Event_Bindings) within fzf to operate on the selected line:
-  - [open file in Vim](https://github.com/junegunn/fzf/issues/1360)
-  - [preview image files](https://gitter.im/junegunn/fzf?at=5947962ef6a78eab48620792)
+- add [key bindings](https://www.mankier.com/1/sk#Key/Event_Bindings) within sk to operate on the selected line:
+  - [open file in Vim](https://github.com/junegunn/sk/issues/1360)
+  - [preview image files](https://gitter.im/junegunn/sk?at=5947962ef6a78eab48620792)
   - [copy to clipboard](https://betterprogramming.pub/boost-your-command-line-productivity-with-fuzzy-finder-985aa162ba5d)
   - git checkout commit
   - git reset file
 - adjust the preview command or window
-- [re-populate fzf's input list on demand](https://github.com/junegunn/fzf/issues/1750)
+- [re-populate sk's input list on demand](https://github.com/junegunn/sk/issues/1750)
 - change the search mode
 
 ### Change the command used to preview files
 
-The search directory feature, by default, uses `bat` to preview the contents of files. `bat` is a well-adopted `cat` replacement with syntax highlighting, line numbers, and more. If you would like to change the preview tool (to `cat` to avoid installing a new dependency, or to add custom logic such as binary or image preview), you may set the `fzf_preview_file_cmd` variable. For example, in your `config.fish`, you may put:
+The search directory feature, by default, uses `bat` to preview the contents of files. `bat` is a well-adopted `cat` replacement with syntax highlighting, line numbers, and more. If you would like to change the preview tool (to `cat` to avoid installing a new dependency, or to add custom logic such as binary or image preview), you may set the `sk_preview_file_cmd` variable. For example, in your `config.fish`, you may put:
 
 ```fish
-set fzf_preview_file_cmd cat
+set sk_preview_file_cmd cat
 ```
 
-Do not specify a target path in the command, as `fzf.fish` will [prepend the file][custom preview command] to preview to the command itself.
+Do not specify a target path in the command, as `sk.fish` will [prepend the file][custom preview command] to preview to the command itself.
 
 ### Change the command used to preview directories
 
-The search directory feature, by default, uses `ls` to preview the contents of directories. To integrate with the variety of `ls` replacements available (e.g. exa, lsd, tree), the command used to preview directories is configurable through the `fzf_preview_dir_cmd` variable. Set `fzf_preview_dir_cmd` in your `config.fish`:
+The search directory feature, by default, uses `ls` to preview the contents of directories. To integrate with the variety of `ls` replacements available (e.g. exa, lsd, tree), the command used to preview directories is configurable through the `sk_preview_dir_cmd` variable. Set `sk_preview_dir_cmd` in your `config.fish`:
 
 ```fish
-set fzf_preview_dir_cmd exa --all --color=always
+set sk_preview_dir_cmd exa --all --color=always
 ```
 
-As above, do not specify a target path in the command. `fzf.fish` will [prepend the directory][custom preview command] to preview to the command itself.
+As above, do not specify a target path in the command. `sk.fish` will [prepend the directory][custom preview command] to preview to the command itself.
 
 ### Change the files searched
 
-To pass custom options to `fd` when it is executed to populate the list of files for the search directory feature, set the `fzf_fd_opts` variable. For example, to include hidden files but not `.git`, put this in your `config.fish`:
+To pass custom options to `fd` when it is executed to populate the list of files for the search directory feature, set the `sk_fd_opts` variable. For example, to include hidden files but not `.git`, put this in your `config.fish`:
 
 ```fish
-set fzf_fd_opts --hidden --exclude=.git
+set sk_fd_opts --hidden --exclude=.git
 ```
 
 ## Further reading
 
 Find answers to these questions and more in the [project Wiki][wiki]:
 
-- How does `fzf.fish` [compare][prior art] to other popular fzf plugins for fish?
+- How does `sk.fish` [compare][prior art] to other popular sk plugins for fish?
 - Why isn't this [feature working][troubleshooting] for me?
 - How can I [integrate][cookbook] this plugin into my workflow?
 - How can I [contribute][] to this plugin?
 
-[actions]: https://github.com/PatrickF1/fzf.fish/actions
+[actions]: https://github.com/PatrickF1/sk.fish/actions
 [awesome badge]: https://awesome.re/mentioned-badge.svg
 [awesome fish]: https://git.io/awsm.fish
 [bat]: https://github.com/sharkdp/bat
-[build status badge]: https://img.shields.io/github/workflow/status/patrickf1/fzf.fish/CI
+[build status badge]: https://img.shields.io/github/workflow/status/patrickf1/sk.fish/CI
 [cd docs]: https://fishshell.com/docs/current/cmds/cd.html
 [command history search]: images/command_history.gif
-[conf.d/fzf.fish]: conf.d/fzf.fish
-[contribute]: https://github.com/PatrickF1/fzf.fish/wiki/Contributing
-[cookbook]: https://github.com/PatrickF1/fzf.fish/wiki/Cookbook
-[custom preview command]: functions/_fzf_preview_file.fish#L7
+[conf.d/sk.fish]: conf.d/sk.fish
+[contribute]: https://github.com/PatrickF1/sk.fish/wiki/Contributing
+[cookbook]: https://github.com/PatrickF1/sk.fish/wiki/Cookbook
+[custom preview command]: functions/_sk_preview_file.fish#L7
 [fd]: https://github.com/sharkdp/fd
 [file search]: images/directory.gif
 [fish]: https://fishshell.com
 [fisher]: https://github.com/jorgebucaran/fisher
-[fzf_default_opts]: https://github.com/junegunn/fzf#environment-variables
-[fzf]: https://github.com/junegunn/fzf
+[sk_default_opts]: https://github.com/junegunn/sk#environment-variables
+[sk]: https://github.com/junegunn/sk
 [git log search]: images/git_log.gif
 [git status select]: images/git_status.gif
 [ilancosman/tide]: https://github.com/IlanCosman/tide
-[latest release badge]: https://img.shields.io/github/v/release/patrickf1/fzf.fish
-[prior art]: https://github.com/PatrickF1/fzf.fish/wiki/Prior-Art
-[releases]: https://github.com/patrickf1/fzf.fish/releases
+[latest release badge]: https://img.shields.io/github/v/release/patrickf1/sk.fish
+[prior art]: https://github.com/PatrickF1/sk.fish/wiki/Prior-Art
+[releases]: https://github.com/patrickf1/sk.fish/releases
 [shell variables search]: images/shell_variables.gif
-[troubleshooting]: https://github.com/PatrickF1/fzf.fish/wiki/Troubleshooting
+[troubleshooting]: https://github.com/PatrickF1/sk.fish/wiki/Troubleshooting
 [universal variable]: https://fishshell.com/docs/current/#more-on-universal-variables
 [var scope]: https://fishshell.com/docs/current/#variable-scope
-[wiki]: https://github.com/PatrickF1/fzf.fish/wiki
+[wiki]: https://github.com/PatrickF1/sk.fish/wiki
