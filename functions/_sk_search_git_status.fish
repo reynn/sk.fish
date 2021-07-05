@@ -1,14 +1,14 @@
-function _fzf_search_git_status --description "Search the output of git status. Replace the current token with the selected file paths."
+function _sk_search_git_status --description "Search the output of git status. Replace the current token with the selected file paths."
     if not git rev-parse --git-dir >/dev/null 2>&1
-        echo '_fzf_search_git_status: Not in a git repository.' >&2
+        echo '_sk_search_git_status: Not in a git repository.' >&2
     else
         set selected_paths (
             # Pass configuration color.status=always to force status to use colors even though output is sent to a pipe
             git -c color.status=always status --short |
-            fzf --ansi \
+            sk --ansi \
                 --multi \
                 --query=(commandline --current-token) \
-                $fzf_git_status_opts
+                $sk_git_status_opts
         )
         if test $status -eq 0
             # git status --short automatically escapes the paths of most files for us so not going to bother trying to handle

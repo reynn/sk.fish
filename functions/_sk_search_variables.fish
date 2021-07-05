@@ -1,36 +1,36 @@
 # This function expects the following two arguments:
 # argument 1 = output of (set --show | psub), i.e. a file with the scope info and values of all variables
 # argument 2 = output of (set --names | psub), i.e. a file with all variable names
-function _fzf_search_variables --argument-names set_show_output set_names_output --description "Search and preview shell variables. Replace the current token with the selected variable."
+function _sk_search_variables --argument-names set_show_output set_names_output --description "Search and preview shell variables. Replace the current token with the selected variable."
     if test -z "$set_names_output"
-        printf '%s\n' '_fzf_search_variables requires 2 arguments.' >&2
+        printf '%s\n' '_sk_search_variables requires 2 arguments.' >&2
 
         commandline --function repaint
         return 22 # 22 means invalid argument in POSIX
     end
 
-    # Make sure that fzf uses fish to execute _fzf_extract_var_info, which
+    # Make sure that sk uses fish to execute _sk_extract_var_info, which
     # is an autoloaded fish function so doesn't exist in other shells.
     # Use --local so that it does not clobber SHELL outside of this function.
     set --local --export SHELL (command --search fish)
 
-    # Exclude the history variable from being piped into fzf because
+    # Exclude the history variable from being piped into sk because
     # 1. it's not included in $set_names_output
     # 2. it tends to be a very large value => increases computation time
-    # 3._fzf_search_history is a much better way to examine history anyway
+    # 3._sk_search_history is a much better way to examine history anyway
     set all_variable_names (string match --invert history <$set_names_output)
 
     set current_token (commandline --current-token)
-    # Use the current token to pre-populate fzf's query. If the current token begins
+    # Use the current token to pre-populate sk's query. If the current token begins
     # with a $, remove it from the query so that it will better match the variable names
     set cleaned_curr_token (string replace -- '$' '' $current_token)
 
     set variable_names_selected (
         printf '%s\n' $all_variable_names |
-        fzf --preview "_fzf_extract_var_info {} $set_show_output" \
+        sk --preview "_sk_extract_var_info {} $set_show_output" \
             --multi \
             --query=$cleaned_curr_token \
-            $fzf_shell_vars_opts
+            $sk_shell_vars_opts
     )
 
     if test $status -eq 0

@@ -1,9 +1,9 @@
-function _fzf_search_git_log --description "Search the output of git log and preview commits. Replace the current token with the selected commit hash."
+function _sk_search_git_log --description "Search the output of git log and preview commits. Replace the current token with the selected commit hash."
     if not git rev-parse --git-dir >/dev/null 2>&1
-        echo '_fzf_search_git_log: Not in a git repository.' >&2
+        echo '_sk_search_git_log: Not in a git repository.' >&2
     else
-        # Make sure that fzf uses fish to execute git show.
-        # See similar comment in _fzf_search_variables.fish.
+        # Make sure that sk uses fish to execute git show.
+        # See similar comment in _sk_search_variables.fish.
         set --local --export SHELL (command --search fish)
 
         # see documentation for git format placeholders at https://git-scm.com/docs/git-log#Documentation/git-log.txt-emnem
@@ -11,11 +11,11 @@ function _fzf_search_git_log --description "Search the output of git log and pre
         set log_fmt_str '%C(bold blue)%h%C(reset) - %C(cyan)%ad%C(reset) %C(yellow)%d%C(reset) %C(normal)%s%C(reset)  %C(dim normal)[%an]%C(reset)'
         set selected_log_line (
             git log --color=always --format=format:$log_fmt_str --date=short | \
-            fzf --ansi \
+            sk --ansi \
                 --tiebreak=index \
                 --preview='git show --color=always {1}' \
                 --query=(commandline --current-token) \
-                $fzf_git_log_opts
+                $sk_git_log_opts
         )
         if test $status -eq 0
             set abbreviated_commit_hash (string split --max 1 " " $selected_log_line)[1]
